@@ -1,0 +1,184 @@
+[debug] [2024-06-24T03:24:29.819Z] ----------------------------------------------------------------------
+[debug] [2024-06-24T03:24:29.820Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init --debug
+[debug] [2024-06-24T03:24:29.820Z] CLI Version:   12.5.2
+[debug] [2024-06-24T03:24:29.820Z] Platform:      darwin
+[debug] [2024-06-24T03:24:29.821Z] Node Version:  v18.17.1
+[debug] [2024-06-24T03:24:29.822Z] Time:          Sun Jun 23 2024 23:24:29 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-06-24T03:24:29.822Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-06-24T03:24:29.865Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-06-24T03:24:29.866Z] > authorizing via signed-in user (rockdamkid@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/rajatdixit/restmanager
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-06-24T03:24:35.467Z] Using project from CLI flag: imageocr-424205
+[debug] [2024-06-24T03:24:35.469Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 [none]
+[debug] [2024-06-24T03:24:35.841Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 200
+[debug] [2024-06-24T03:24:35.841Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 {"projectId":"imageocr-424205","projectNumber":"42912040620","displayName":"imageocr","name":"projects/imageocr-424205","resources":{"hostingSite":"imageocr-424205","realtimeDatabaseInstance":"imageocr-424205-default-rtdb"},"state":"ACTIVE","etag":"1_281c5a8e-b293-4a7b-b5a0-bde2ab60d3b5"}
+[info] i  Using project imageocr-424205 (imageocr) 
+[info] 
+=== Firestore Setup
+[debug] [2024-06-24T03:24:35.850Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com [none]
+[debug] [2024-06-24T03:24:35.850Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com x-goog-quota-user=projects/imageocr-424205
+[debug] [2024-06-24T03:24:36.249Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com 200
+[debug] [2024-06-24T03:24:36.249Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com [omitted]
+[debug] [2024-06-24T03:24:36.251Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) [none]
+[debug] [2024-06-24T03:24:36.382Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) 404
+[debug] [2024-06-24T03:24:36.383Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) {"error":{"code":404,"message":"Project 'imageocr-424205' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[debug] [2024-06-24T03:24:36.383Z] error getting database type HTTP Error: 404, Project 'imageocr-424205' or database '(default)' does not exist. {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":404,"message":"Project 'imageocr-424205' or database '(default)' does not exist.","status":"NOT_FOUND"}},"response":{"statusCode":404}},"exit":1,"message":"HTTP Error: 404, Project 'imageocr-424205' or database '(default)' does not exist.","status":404}
+[debug] [2024-06-24T03:24:36.384Z] database_type: undefined
+[error] 
+[error] Error: It looks like you haven't used Cloud Firestore in this project before. Go to https://console.firebase.google.com/project/imageocr-424205/firestore to create your Cloud Firestore database.
+[debug] [2024-06-24T03:38:06.679Z] ----------------------------------------------------------------------
+[debug] [2024-06-24T03:38:06.680Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init --debug
+[debug] [2024-06-24T03:38:06.680Z] CLI Version:   12.5.2
+[debug] [2024-06-24T03:38:06.681Z] Platform:      darwin
+[debug] [2024-06-24T03:38:06.681Z] Node Version:  v18.17.1
+[debug] [2024-06-24T03:38:06.682Z] Time:          Sun Jun 23 2024 23:38:06 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-06-24T03:38:06.682Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-06-24T03:38:06.720Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-06-24T03:38:06.721Z] > authorizing via signed-in user (rockdamkid@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/rajatdixit/restmanager
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-06-24T03:38:11.149Z] Using project from CLI flag: imageocr-424205
+[debug] [2024-06-24T03:38:11.151Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 [none]
+[debug] [2024-06-24T03:38:11.587Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 200
+[debug] [2024-06-24T03:38:11.587Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 {"projectId":"imageocr-424205","projectNumber":"42912040620","displayName":"imageocr","name":"projects/imageocr-424205","resources":{"hostingSite":"imageocr-424205","realtimeDatabaseInstance":"imageocr-424205-default-rtdb"},"state":"ACTIVE","etag":"1_281c5a8e-b293-4a7b-b5a0-bde2ab60d3b5"}
+[info] i  Using project imageocr-424205 (imageocr) 
+[info] 
+=== Firestore Setup
+[debug] [2024-06-24T03:38:11.597Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com [none]
+[debug] [2024-06-24T03:38:11.597Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com x-goog-quota-user=projects/imageocr-424205
+[debug] [2024-06-24T03:38:13.033Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com 200
+[debug] [2024-06-24T03:38:13.033Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com [omitted]
+[debug] [2024-06-24T03:38:13.034Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) [none]
+[debug] [2024-06-24T03:38:13.180Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) 404
+[debug] [2024-06-24T03:38:13.181Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) {"error":{"code":404,"message":"Project 'imageocr-424205' or database '(default)' does not exist.","status":"NOT_FOUND"}}
+[debug] [2024-06-24T03:38:13.182Z] error getting database type HTTP Error: 404, Project 'imageocr-424205' or database '(default)' does not exist. {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":404,"message":"Project 'imageocr-424205' or database '(default)' does not exist.","status":"NOT_FOUND"}},"response":{"statusCode":404}},"exit":1,"message":"HTTP Error: 404, Project 'imageocr-424205' or database '(default)' does not exist.","status":404}
+[debug] [2024-06-24T03:38:13.182Z] database_type: undefined
+[error] 
+[error] Error: It looks like you haven't used Cloud Firestore in this project before. Go to https://console.firebase.google.com/project/imageocr-424205/firestore to create your Cloud Firestore database.
+[debug] [2024-06-24T03:39:05.497Z] ----------------------------------------------------------------------
+[debug] [2024-06-24T03:39:05.498Z] Command:       /usr/local/bin/node /usr/local/bin/firebase init --debug
+[debug] [2024-06-24T03:39:05.499Z] CLI Version:   12.5.2
+[debug] [2024-06-24T03:39:05.499Z] Platform:      darwin
+[debug] [2024-06-24T03:39:05.499Z] Node Version:  v18.17.1
+[debug] [2024-06-24T03:39:05.500Z] Time:          Sun Jun 23 2024 23:39:05 GMT-0400 (Eastern Daylight Time)
+[debug] [2024-06-24T03:39:05.500Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-06-24T03:39:05.539Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-06-24T03:39:05.540Z] > authorizing via signed-in user (rockdamkid@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  /Users/rajatdixit/restmanager
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-06-24T03:39:08.748Z] Using project from CLI flag: imageocr-424205
+[debug] [2024-06-24T03:39:08.751Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 [none]
+[debug] [2024-06-24T03:39:09.244Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 200
+[debug] [2024-06-24T03:39:09.244Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/imageocr-424205 {"projectId":"imageocr-424205","projectNumber":"42912040620","displayName":"imageocr","name":"projects/imageocr-424205","resources":{"hostingSite":"imageocr-424205","realtimeDatabaseInstance":"imageocr-424205-default-rtdb"},"state":"ACTIVE","etag":"1_281c5a8e-b293-4a7b-b5a0-bde2ab60d3b5"}
+[info] i  Using project imageocr-424205 (imageocr) 
+[info] 
+=== Firestore Setup
+[debug] [2024-06-24T03:39:09.252Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com [none]
+[debug] [2024-06-24T03:39:09.253Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com x-goog-quota-user=projects/imageocr-424205
+[debug] [2024-06-24T03:39:09.650Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com 200
+[debug] [2024-06-24T03:39:09.650Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/imageocr-424205/services/firestore.googleapis.com [omitted]
+[debug] [2024-06-24T03:39:09.652Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) [none]
+[debug] [2024-06-24T03:39:09.911Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) 200
+[debug] [2024-06-24T03:39:09.911Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default) {"name":"projects/imageocr-424205/databases/(default)","uid":"3a64aac1-2a2d-4f50-a7c3-045d11dbef07","createTime":"2024-06-24T03:38:54.776561Z","updateTime":"2024-06-24T03:38:54.776561Z","locationId":"nam5","type":"FIRESTORE_NATIVE","concurrencyMode":"PESSIMISTIC","versionRetentionPeriod":"3600s","earliestVersionTime":"2024-06-24T03:38:54.776561Z","appEngineIntegrationMode":"DISABLED","keyPrefix":"s","pointInTimeRecoveryEnablement":"POINT_IN_TIME_RECOVERY_DISABLED","deleteProtectionState":"DELETE_PROTECTION_DISABLED","etag":"IKHwnbGo84YDMJqWhrCo84YD"}
+[debug] [2024-06-24T03:39:09.911Z] database_type: FIRESTORE_NATIVE
+[debug] [2024-06-24T03:39:09.912Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-06-24T03:39:09.912Z] > authorizing via signed-in user (rockdamkid@gmail.com)
+[debug] [2024-06-24T03:39:09.912Z] [iam] checking project imageocr-424205 for permissions ["firebase.projects.get"]
+[debug] [2024-06-24T03:39:09.912Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/imageocr-424205:testIamPermissions [none]
+[debug] [2024-06-24T03:39:09.912Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/imageocr-424205:testIamPermissions x-goog-quota-user=projects/imageocr-424205
+[debug] [2024-06-24T03:39:09.913Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/imageocr-424205:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2024-06-24T03:39:10.127Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/imageocr-424205:testIamPermissions 200
+[debug] [2024-06-24T03:39:10.127Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/imageocr-424205:testIamPermissions {"permissions":["firebase.projects.get"]}
+[info] 
+[info] Firestore Security Rules allow you to define how and when to allow
+[info] requests. You can keep these rules in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2024-06-24T03:39:14.241Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/imageocr-424205/releases pageSize=10&pageToken=
+[debug] [2024-06-24T03:39:14.475Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/imageocr-424205/releases 200
+[debug] [2024-06-24T03:39:14.476Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/imageocr-424205/releases {"releases":[{"name":"projects/imageocr-424205/releases/cloud.firestore","rulesetName":"projects/imageocr-424205/rulesets/8774531e-9711-4cca-a570-6494b21ed2cd","createTime":"2024-06-24T03:38:56.242154Z","updateTime":"2024-06-24T03:38:56.242154Z"}]}
+[debug] [2024-06-24T03:39:14.477Z] Found ruleset: projects/imageocr-424205/rulesets/8774531e-9711-4cca-a570-6494b21ed2cd
+[debug] [2024-06-24T03:39:14.477Z] >>> [apiv2][query] GET https://firebaserules.googleapis.com/v1/projects/imageocr-424205/rulesets/8774531e-9711-4cca-a570-6494b21ed2cd [none]
+[debug] [2024-06-24T03:39:14.607Z] <<< [apiv2][status] GET https://firebaserules.googleapis.com/v1/projects/imageocr-424205/rulesets/8774531e-9711-4cca-a570-6494b21ed2cd 200
+[debug] [2024-06-24T03:39:14.608Z] <<< [apiv2][body] GET https://firebaserules.googleapis.com/v1/projects/imageocr-424205/rulesets/8774531e-9711-4cca-a570-6494b21ed2cd [omitted]
+[info] 
+[info] Firestore indexes allow you to perform complex queries while
+[info] maintaining performance that scales with the size of the result
+[info] set. You can keep index definitions in your project directory
+[info] and publish them with firebase deploy.
+[info] 
+[debug] [2024-06-24T03:39:17.195Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default)/collectionGroups/-/indexes [none]
+[debug] [2024-06-24T03:39:17.197Z] >>> [apiv2][query] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* [none]
+[debug] [2024-06-24T03:39:17.305Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default)/collectionGroups/-/indexes 200
+[debug] [2024-06-24T03:39:17.305Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default)/collectionGroups/-/indexes {}
+[debug] [2024-06-24T03:39:17.583Z] <<< [apiv2][status] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* 200
+[debug] [2024-06-24T03:39:17.583Z] <<< [apiv2][body] GET https://firestore.googleapis.com/v1/projects/imageocr-424205/databases/(default)/collectionGroups/-/fields?filter=indexConfig.usesAncestorConfig=false OR ttlConfig:* {"fields":[{"name":"projects/imageocr-424205/databases/(default)/collectionGroups/__default__/fields/*","indexConfig":{"indexes":[{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"ASCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","order":"DESCENDING"}],"state":"READY"},{"queryScope":"COLLECTION","fields":[{"fieldPath":"*","arrayConfig":"CONTAINS"}],"state":"READY"}]}}]}
+[info] 
+[info] i  Writing configuration info to firebase.json... 
+[info] i  Writing project information to .firebaserc... 
+[info] 
+[info] ✔  Firebase initialization complete! 
