@@ -25,7 +25,7 @@ const upload = multer({
 });
 
 // Enable CORS for all routes
-app.use(cors({ origin: true }));
+app.use(cors());
 
 // Converts image data to a GoogleGenerativeAI.Part object.
 function imageToGenerativePart(imageData, mimeType) {
@@ -64,9 +64,6 @@ app.post("/extract-data", upload.single("image"), async (req, res) => {
   }
 });
 
-// const PORT = 5001;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+
 
 exports.api = functions.https.onRequest(app);
