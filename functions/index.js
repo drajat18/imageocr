@@ -1,3 +1,4 @@
+const functions = require('firebase-functions');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const express = require("express");
 const multer = require("multer");
@@ -24,7 +25,7 @@ const upload = multer({
 });
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors({ origin: true }));
 
 // Converts image data to a GoogleGenerativeAI.Part object.
 function imageToGenerativePart(imageData, mimeType) {
@@ -63,7 +64,9 @@ app.post("/extract-data", upload.single("image"), async (req, res) => {
   }
 });
 
-const PORT = 5001;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// const PORT = 5001;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+exports.api = functions.https.onRequest(app);
