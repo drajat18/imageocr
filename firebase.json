@@ -1,7 +1,6 @@
 {
   "hosting": {
-    "source": "*",
-    "destination":"/index.html",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -21,7 +20,7 @@
   "functions": [
     {
       "source": "functions",
-      "destination": "/index.js",
+      "codebase": "default",
       "ignore": [
         "node_modules",
         ".git",
