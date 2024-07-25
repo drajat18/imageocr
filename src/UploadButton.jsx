@@ -63,7 +63,7 @@ function UploadButton({ setDataForTable }) {
       const formData = new FormData();
       formData.append('image', file);
 
-      const response = await axios.post('http://localhost:3001/extract-data', formData, {
+      const response = await axios.post('https://us-central1-imageocr-424205.cloudfunctions.net/api/extract-data', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
