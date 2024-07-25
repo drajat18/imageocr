@@ -5,7 +5,6 @@
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
-    "build": "echo \"no build needed\",",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
@@ -14,15 +13,8 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@google/generative-ai": "^0.15.0",
-    "cors": "^2.8.5",
-    "deploy": "^1.0.3",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "firebase": "^10.12.4",
     "firebase-admin": "^11.8.0",
-    "firebase-functions": "^5.0.1",
-    "multer": "^1.4.5-lts.1"
+    "firebase-functions": "^4.3.1"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.1.0"
