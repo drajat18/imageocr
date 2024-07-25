@@ -25,7 +25,7 @@ const upload = multer({
 });
 
 // Enable CORS for all routes
-app.use(cors());
+app.use(cors(({origin:true})));
 
 // Converts image data to a GoogleGenerativeAI.Part object.
 function imageToGenerativePart(imageData, mimeType) {
