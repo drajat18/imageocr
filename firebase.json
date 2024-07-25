@@ -9,6 +9,7 @@
     "rewrites": [
       {
         "source": "**",
+        "functions":"api",
         "destination": "/index.html"
       }
     ]
