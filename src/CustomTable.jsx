@@ -35,13 +35,14 @@ const CustomTable = () => {
   const [totalAmount, setTotalAmount] = useState(value); //value
   const [dataForTable, setDataForTable] = useState(data);
   const [selectedColumn, setSelectedColumn] = useState(column); //column value
+  
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     setLoading(true);
     try {
       const formData = new FormData();
       formData.append('image', file);
-      const response = await axios.post('https://us-central1-imageocr-424205.cloudfunctions.net/api/extract-data/', formData, {
+      const response = await axios.post('https://apiimageocr.ue.r.appspot.com/extract-data', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       const extractedData = response.data.data;
