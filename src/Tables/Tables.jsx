@@ -87,6 +87,9 @@ const Tables = () => {
       console.log('Validate Failed:', errInfo);
     }
   };
+  const timestampToDate = (timestamp) => {
+    return timestamp ? new Date(timestamp.seconds * 1000) : null;
+  };
 
   // Define columns based on your data structure
   const columns = [
@@ -96,32 +99,37 @@ const Tables = () => {
       key: 'date',
       render: (id) => new Date(id.split('T')[0]).toLocaleDateString(),
       editable: true,
+      sorter: (a, b) => new Date(a.id) - new Date(b.id),
     },
     {
       title: 'Vendor Name',
       dataIndex: 'name',
       key: 'name',
       editable: true,
+      sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
       title: 'Invoice Number',
       dataIndex: 'invoice_number',
       key: 'invoice_number',
       editable: true,
+      sorter: (a, b) => a.invoice_number - b.invoice_number,
     },
     {
       title: 'Invoice Date',
       dataIndex: 'invoice_date',
       key: 'invoice_date',
-      render: (date) => date.toDate().toLocaleDateString(),
+      render: (date) => timestampToDate(date)?.toLocaleDateString() || 'N/A',
       editable: true,
+      sorter: (a, b) => new Date(a.invoice_date) - new Date(b.invoice_date),
     },
     {
       title: 'Delivery Date',
       dataIndex: 'delivery_date',
       key: 'delivery_date',
-      render: (date) => date.toDate().toLocaleDateString(),
+      render: (date) => timestampToDate(date)?.toLocaleDateString() || 'N/A',
       editable: true,
+      sorter: (a, b) => new Date(a.delivery_date) - new Date(b.delivery_date),
     },
     {
       title: 'Operation',
@@ -143,20 +151,19 @@ const Tables = () => {
             </Popconfirm>
           </span>
         ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={navigateCustomTable}>
+          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
             Edit
           </Typography.Link>
         );
       },
     },
-
     {
       title: 'Payment',
       dataIndex: '',
       key: '',
       editable: true,
-
-      render: () => <Typography.Link>Pay Now</Typography.Link>,    },
+      render: () => <Typography.Link>Pay Now</Typography.Link>,
+    },
   ];
 
   const mergedColumns = columns.map((col) => {
@@ -214,13 +221,13 @@ const Tables = () => {
 
   const navigateCustomTable = (e) => {
     let id = e.target.parentElement.parentElement.dataset['rowKey'];
-    let selectedData = weekData.filter(item =>item.id ===id )[0].data
-    let selectedColumn = weekData.filter(item =>item.id ===id )[0].selectedColumn
-    let totalAmount = weekData.filter(item =>item.id ===id )[0].totalAmount
-    
-    navigate('/CustomTable', { state: { selectedData,selectedColumn ,totalAmount} });
-    //navigate('/CustomTable');
+    let selectedData = weekData.filter(item => item.id === id)[0].data;
+    let selectedColumn = weekData.filter(item => item.id === id)[0].selectedColumn;
+    let totalAmount = weekData.filter(item => item.id === id)[0].totalAmount;
+
+    navigate('/CustomTable', { state: { selectedData, selectedColumn, totalAmount } });
   };
+
   const handleclick = () => {
     navigate('/customtable');
   };
@@ -235,24 +242,23 @@ const Tables = () => {
 
       <Row justify="end" style={{ marginBottom: '20px' }}>
         <Col>
-          <Button  type="primary" icon={<SearchOutlined />}  onClick={handleclick}>
+          <Button type="primary" icon={<SearchOutlined />} onClick={handleclick}>
             Add New Receipt
           </Button>
-         
         </Col>
       </Row>
 
       <Row justify="center">
         <Col span={20}>
           <Form form={form} component={false}>
-            <Table 
+            <Table
               components={{
                 body: {
                   cell: EditableCell,
                 },
               }}
               bordered
-              dataSource={weekData} 
+              dataSource={weekData}
               columns={mergedColumns}
               rowClassName="editable-row"
               pagination={{

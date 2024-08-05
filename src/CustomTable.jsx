@@ -8,6 +8,7 @@ import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import { firebaseDb } from '../src/firabase';  // Check your firebase import path
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import CustomDropdown from './CutsomDropdown/CustomDropdown';
 
 const { Option } = Select;
 
@@ -122,59 +123,113 @@ const CustomTable = () => {
     setTableData(updatedData);
   };
 
+  // const handleSave = async () => {
+  //   if (name === '' || invoiceDate === null || deliveryDate === null || invoiceNumber === '') {
+  //     alert("Please fill all the fields");
+  //   } else {
+  //     const convertToTimestamp = (dateValue) => {
+  //       if (dateValue && typeof dateValue.toDate === 'function') {
+  //         return Timestamp.fromDate(dateValue.toDate());
+  //       } else if (dateValue instanceof Date) {
+  //         return Timestamp.fromDate(dateValue);
+  //       } else if (typeof dateValue === 'string') {
+  //         return Timestamp.fromDate(new Date(dateValue));
+  //       } else {
+  //         return dateValue;
+  //       }
+  //     };
+
+  //     const data = {
+  //       name: name,
+  //       invoice_number: invoiceNumber,
+  //       invoice_date: convertToTimestamp(invoiceDate),
+  //       delivery_date: convertToTimestamp(deliveryDate),
+  //       data: dataForTable,
+  //       totalAmount: totalAmount , // Include total amount in the data to be saved
+  //       selectedColumn: selectedColumn, //
+  //     };
+
+  //     try {
+  //       const userId = sessionStorage.getItem('userId');
+  //       if (!userId) {
+  //         throw new Error("User ID not found in session storage");
+  //       }
+
+  //       const currentDate = new Date();
+  //       const year = currentDate.getFullYear().toString();
+  //       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  //       const month = monthNames[currentDate.getMonth()];
+  //       const weekNumber = Math.ceil(currentDate.getDate() / 7);
+  //       const weekKey = `Week${weekNumber}`;
+
+  //       const timestamp = Timestamp.now();
+  //       const dateTimeString = timestamp.toDate().toISOString().replace(/[:.]/g, '-');
+
+  //       const docPath = `restaurants/${userId}/${year}/${month}/${weekKey}/${dateTimeString}`;
+  //       const docRef = doc(firebaseDb, docPath);
+
+  //       await setDoc(docRef, { ...data, createdAt: timestamp });
+  //       console.log("Data saved successfully!");
+  //       navigate('/tables');
+  //     } catch (error) {
+  //       console.error("Error saving data:", error);
+  //     }
+  //   }
+  // };
+
   const handleSave = async () => {
     if (name === '' || invoiceDate === null || deliveryDate === null || invoiceNumber === '') {
       alert("Please fill all the fields");
     } else {
-      const convertToTimestamp = (dateValue) => {
-        if (dateValue && typeof dateValue.toDate === 'function') {
-          return Timestamp.fromDate(dateValue.toDate());
-        } else if (dateValue instanceof Date) {
-          return Timestamp.fromDate(dateValue);
-        } else if (typeof dateValue === 'string') {
-          return Timestamp.fromDate(new Date(dateValue));
-        } else {
-          return dateValue;
+        const convertToTimestamp = (dateValue) => {
+            if (dateValue && typeof dateValue.toDate === 'function') {
+                return Timestamp.fromDate(dateValue.toDate());
+            } else if (dateValue instanceof Date) {
+                return Timestamp.fromDate(dateValue);
+            } else if (typeof dateValue === 'string') {
+                return Timestamp.fromDate(new Date(dateValue));
+            } else {
+                return dateValue;
+            }
+        };
+
+        const data = {
+            name: name,
+            invoice_number: invoiceNumber,
+            invoice_date: convertToTimestamp(invoiceDate),
+            delivery_date: convertToTimestamp(deliveryDate),
+            data: dataForTable,
+            totalAmount: totalAmount, // Include total amount in the data to be saved
+            selectedColumn: selectedColumn,
+        };
+
+        try {
+          const userId = sessionStorage.getItem('userId');
+          if (!userId) {
+            throw new Error("User ID not found in session storage");
+          }
+    
+          const currentDate = new Date();
+          const year = currentDate.getFullYear().toString();
+          const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          const month = monthNames[currentDate.getMonth()];
+          const weekNumber = Math.ceil(currentDate.getDate() / 7);
+          const weekKey = `Week${weekNumber}`;
+    
+          const timestamp = Timestamp.now();
+          const dateTimeString = timestamp.toDate().toISOString().replace(/[:.]/g, '-');
+          const docPath = `restaurants/${userId}/${year}/${month}/${weekKey}/${name}_${dateTimeString}`;
+    
+          const docRef = doc(firebaseDb, docPath);
+          await setDoc(docRef, { ...data, createdAt: timestamp });
+    
+          console.log("Data saved successfully!");
+          navigate('/tables');
+        } catch (error) {
+          console.error("Error saving data:", error);
         }
-      };
-
-      const data = {
-        name: name,
-        invoice_number: invoiceNumber,
-        invoice_date: convertToTimestamp(invoiceDate),
-        delivery_date: convertToTimestamp(deliveryDate),
-        data: dataForTable,
-        totalAmount: totalAmount , // Include total amount in the data to be saved
-        selectedColumn: selectedColumn, //
-      };
-
-      try {
-        const userId = sessionStorage.getItem('userId');
-        if (!userId) {
-          throw new Error("User ID not found in session storage");
-        }
-
-        const currentDate = new Date();
-        const year = currentDate.getFullYear().toString();
-        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const month = monthNames[currentDate.getMonth()];
-        const weekNumber = Math.ceil(currentDate.getDate() / 7);
-        const weekKey = `Week${weekNumber}`;
-
-        const timestamp = Timestamp.now();
-        const dateTimeString = timestamp.toDate().toISOString().replace(/[:.]/g, '-');
-
-        const docPath = `restaurants/${userId}/${year}/${month}/${weekKey}/${dateTimeString}`;
-        const docRef = doc(firebaseDb, docPath);
-
-        await setDoc(docRef, { ...data, createdAt: timestamp });
-        console.log("Data saved successfully!");
-        navigate('/tables');
-      } catch (error) {
-        console.error("Error saving data:", error);
       }
-    }
-  };
+};
 
   const handleDelete = () => {
     setName('');
@@ -245,17 +300,27 @@ const CustomTable = () => {
     ),
   });
 
+  const handleNameChange = (newName) => {
+    setName(newName);
+  };
+
   return (
     <div>
       {loading && <Spin />}
+     
       <input type="file" onChange={handleFileChange} />
       <Row gutter={16}>
         <Col span={6}>
-          <Input
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+        <CustomDropdown 
+  value={name}
+  onNameChange={handleNameChange}
+  onAddNewVendor={(newVendor) => {
+    // Here you can add logic to save the new vendor to your backend if needed
+    setName(newVendor);
+  }}
+/>
+         {console.log(setName)}
+         
         </Col>
         <Col span={6}>
           <Input

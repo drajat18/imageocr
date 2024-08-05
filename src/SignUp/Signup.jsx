@@ -58,7 +58,6 @@ export default function SignUp() {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const uid = userCredential.user.uid;
     setUid(uid);
-  
     const restaurantsRef = collection(firebaseDb, "restaurants");
   
     try {
@@ -89,7 +88,12 @@ export default function SignUp() {
         }
       }
   
-      console.log("Documents created successfully!");
+      // Create a Vendors collection at the same level as the Year collection
+      const vendorsCollectionRef = collection(userRef, "Vendors");
+      // You can add an initial empty document to ensure the collection is created
+      await addDoc(vendorsCollectionRef, { createdAt: new Date() });
+  
+      console.log("Documents and Vendors collection created successfully!");
       navigate('/login');
     } catch (e) {
       console.error("Error creating documents:", e);
