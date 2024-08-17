@@ -123,60 +123,6 @@ const CustomTable = () => {
     setTableData(updatedData);
   };
 
-  // const handleSave = async () => {
-  //   if (name === '' || invoiceDate === null || deliveryDate === null || invoiceNumber === '') {
-  //     alert("Please fill all the fields");
-  //   } else {
-  //     const convertToTimestamp = (dateValue) => {
-  //       if (dateValue && typeof dateValue.toDate === 'function') {
-  //         return Timestamp.fromDate(dateValue.toDate());
-  //       } else if (dateValue instanceof Date) {
-  //         return Timestamp.fromDate(dateValue);
-  //       } else if (typeof dateValue === 'string') {
-  //         return Timestamp.fromDate(new Date(dateValue));
-  //       } else {
-  //         return dateValue;
-  //       }
-  //     };
-
-  //     const data = {
-  //       name: name,
-  //       invoice_number: invoiceNumber,
-  //       invoice_date: convertToTimestamp(invoiceDate),
-  //       delivery_date: convertToTimestamp(deliveryDate),
-  //       data: dataForTable,
-  //       totalAmount: totalAmount , // Include total amount in the data to be saved
-  //       selectedColumn: selectedColumn, //
-  //     };
-
-  //     try {
-  //       const userId = sessionStorage.getItem('userId');
-  //       if (!userId) {
-  //         throw new Error("User ID not found in session storage");
-  //       }
-
-  //       const currentDate = new Date();
-  //       const year = currentDate.getFullYear().toString();
-  //       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  //       const month = monthNames[currentDate.getMonth()];
-  //       const weekNumber = Math.ceil(currentDate.getDate() / 7);
-  //       const weekKey = `Week${weekNumber}`;
-
-  //       const timestamp = Timestamp.now();
-  //       const dateTimeString = timestamp.toDate().toISOString().replace(/[:.]/g, '-');
-
-  //       const docPath = `restaurants/${userId}/${year}/${month}/${weekKey}/${dateTimeString}`;
-  //       const docRef = doc(firebaseDb, docPath);
-
-  //       await setDoc(docRef, { ...data, createdAt: timestamp });
-  //       console.log("Data saved successfully!");
-  //       navigate('/tables');
-  //     } catch (error) {
-  //       console.error("Error saving data:", error);
-  //     }
-  //   }
-  // };
-
   const handleSave = async () => {
     if (name === '' || invoiceDate === null || deliveryDate === null || invoiceNumber === '') {
       alert("Please fill all the fields");
@@ -249,12 +195,7 @@ const CustomTable = () => {
     );
   };
 
-  const calculateColumnTotal = () => {
-    if (!selectedColumn) {
-      alert("Please select a column to calculate");
-      return;
-    }
-    
+  const calculateColumnTotal = () => { 
     const total = tableData.reduce((sum, row) => {
       const value = parseFloat(row[selectedColumn]);
       return isNaN(value) ? sum : sum + value;
@@ -305,28 +246,63 @@ const CustomTable = () => {
   };
 
   return (
-    <div>
-      {loading && <Spin />}
-     
-      <input type="file" onChange={handleFileChange} />
+    <div style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '8px', position: 'relative' }}>
+      {loading && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            zIndex: 1000,
+          }}
+        >
+          <Spin size="large" />
+        </div>
+      )}
+  
+      <input
+        type="file"
+        onChange={handleFileChange}
+        style={{
+          width: '100%',
+          padding: '8px',
+          marginBottom: '16px',
+          border: '1px solid #ccc',
+          borderRadius: '4px',
+          boxSizing: 'border-box',
+        }}
+      />
       <Row gutter={16}>
         <Col span={6}>
-        <CustomDropdown 
-  value={name}
-  onNameChange={handleNameChange}
-  onAddNewVendor={(newVendor) => {
-    // Here you can add logic to save the new vendor to your backend if needed
-    setName(newVendor);
-  }}
-/>
-         {console.log(setName)}
-         
+          <CustomDropdown
+            value={name}
+            onNameChange={handleNameChange}
+            onAddNewVendor={(newVendor) => {
+              setName(newVendor);
+            }}
+            style={{ width: '100%', marginBottom: '16px' }}
+          />
+          {console.log(setName)}
         </Col>
         <Col span={6}>
           <Input
             placeholder="Invoice Number"
             value={invoiceNumber}
             onChange={(e) => setInvoiceNumber(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '8px',
+              marginBottom: '16px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              boxSizing: 'border-box',
+            }}
           />
         </Col>
         <Col span={6}>
@@ -334,6 +310,7 @@ const CustomTable = () => {
             placeholder="Invoice Date"
             value={invoiceDate ? moment(invoiceDate) : null}
             onChange={(date) => setInvoiceDate(date ? date.toDate() : null)}
+            style={{ width: '100%', marginBottom: '16px' }}
           />
         </Col>
         <Col span={6}>
@@ -341,31 +318,142 @@ const CustomTable = () => {
             placeholder="Delivery Date"
             value={deliveryDate ? moment(deliveryDate) : null}
             onChange={(date) => setDeliveryDate(date ? date.toDate() : null)}
+            style={{ width: '100%', marginBottom: '16px' }}
           />
         </Col>
       </Row>
-      <Button onClick={handleAddHeader}>Add Column</Button>
-      <Button onClick={handleAddRow}>Add Row</Button>
+      <Row>
+        <Col>
+          <Button
+            onClick={handleAddHeader}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '10px',
+              padding: '10px 20px',
+              backgroundColor: '#1890ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s',
+            }}
+          >
+            Add Column
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            onClick={handleAddRow}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '10px',
+              padding: '10px 20px',
+              backgroundColor: '#1890ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s',
+            }}
+          >
+            Add Row
+          </Button>
+        </Col>
+      </Row>
       <Table
         dataSource={tableData}
         columns={columns}
         rowKey={(record, index) => index}
-        footer={() => <Button onClick={calculateColumnTotal}>Calculate Column Totals</Button>}
+        style={{
+          marginTop: '20px',
+          backgroundColor: 'white',
+          borderRadius: '4px',
+          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        }}
       />
-
-      <Row gutter={16} style={{ marginTop: 16 }}>
+  
+      <Row gutter={16} style={{ marginTop: '16px' }}>
         <Col>
           <ColumnSelector />
         </Col>
         <Col>
-          <Button onClick={calculateColumnTotal}>Calculate Column Total</Button>
+          <Button
+            onClick={calculateColumnTotal}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '10px 20px',
+              backgroundColor: '#1890ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s',
+            }}
+          >
+            Calculate Column Total
+          </Button>
         </Col>
         <Col>
-          Total: <input value={totalAmount} readOnly />
+          Total:{' '}
+          <input
+            value={totalAmount}
+            readOnly
+            style={{
+              padding: '8px',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              boxSizing: 'border-box',
+            }}
+          />
         </Col>
       </Row>
-      <Button onClick={handleSave}>Save</Button>
-      <Button onClick={handleDelete}>Delete</Button>
+      <Row style={{ marginTop: '10px' }}>
+        <Col>
+          <Button
+            onClick={handleSave}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginRight: '10px',
+              padding: '10px 20px',
+              backgroundColor: '#1890ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s',
+            }}
+          >
+            Save
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            onClick={handleDelete}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '10px 20px',
+              backgroundColor: '#1890ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s',
+            }}
+          >
+            Delete
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 };

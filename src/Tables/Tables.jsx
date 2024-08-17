@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 import { SearchOutlined } from '@ant-design/icons';
-import { Col, Row, Button, Table, Form, Input, InputNumber, Popconfirm, Typography } from 'antd';
-import { collection, getDocs } from "firebase/firestore"; 
+import Checkbox from '@mui/material/Checkbox';
+import InputLabel from '@mui/material/InputLabel';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import { Col, Form, Input, InputNumber, Popconfirm, Row, Table, Typography } from 'antd';
+import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { firebaseDb } from "../firabase";
-import CustomTable from '../CustomTable';
+import Button from '@mui/material/Button';
+import SearchIcon from '@mui/icons-material/Search';
+import { Chip } from '@mui/material';
 
 const EditableCell = ({
   editing,
@@ -18,7 +27,7 @@ const EditableCell = ({
 }) => {
   const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
   return (
-    <td {...restProps}>
+    <td {...restProps} style={{ padding: '8px' }}>
       {editing ? (
         <Form.Item
           name={dataIndex}
@@ -44,8 +53,53 @@ const EditableCell = ({
 const Tables = () => {
   const [form] = Form.useForm();
   const [weekData, setWeekData] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
   const [editingKey, setEditingKey] = useState('');
   const navigate = useNavigate();
+  const [vendors, setVendors] = useState([]);
+  const [selectedVendors, setSelectedVendors] = useState([]);
+  
+  const yearNames = [
+    { id: '1', name: '2022' },
+    { id: '2', name: '2023' },
+    { id: '3', name: '2024' },
+  ];
+  const monthNames = [
+    { id: '1', name: 'Jan' },
+    { id: '2', name: 'Feb' },
+    { id: '3', name: 'Mar' },
+    { id: '4', name: 'Apr' },
+    { id: '5', name: 'May' },
+    { id: '6', name: 'Jun' },
+    { id: '7', name: 'Jul' },
+    { id: '8', name: 'Aug' },
+    { id: '9', name: 'Sep' },
+    { id: '10', name: 'Oct' },
+    { id: '11', name: 'Nov' },
+    { id: '12', name: 'Dec' },
+  ];
+  const weekNames = [
+    { id: '1', name: 'Week1' },
+    { id: '2', name: 'Week2' },
+    { id: '3', name: 'Week3' },
+    { id: '4', name: 'Week4' }
+  ];
+
+  const [year, setYear] = useState([]);
+  const [month, setMonth] = useState([]);
+  const [week, setWeek] = useState([]);
+  const [search, setSearch] = useState('');
+
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
 
   const isEditing = (record) => record.key === editingKey;
 
@@ -77,21 +131,23 @@ const Tables = () => {
           ...row,
         });
         setWeekData(newData);
+        setOriginalData(newData);
         setEditingKey('');
       } else {
         newData.push(row);
         setWeekData(newData);
+        setOriginalData(newData);
         setEditingKey('');
       }
     } catch (errInfo) {
       console.log('Validate Failed:', errInfo);
     }
   };
+
   const timestampToDate = (timestamp) => {
     return timestamp ? new Date(timestamp.seconds * 1000) : null;
   };
 
-  // Define columns based on your data structure
   const columns = [
     {
       title: 'Date',
@@ -142,12 +198,13 @@ const Tables = () => {
               onClick={() => save(record.key)}
               style={{
                 marginRight: 8,
+                color: '#1890ff',
               }}
             >
               Save
             </Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+              <a style={{ color: '#ff4d4f' }}>Cancel</a>
             </Popconfirm>
           </span>
         ) : (
@@ -162,7 +219,7 @@ const Tables = () => {
       dataIndex: '',
       key: '',
       editable: true,
-      render: () => <Typography.Link>Pay Now</Typography.Link>,
+      render: () => <Typography.Link style={{ color: '#52c41a' }}>Pay Now</Typography.Link>,
     },
   ];
 
@@ -198,77 +255,264 @@ const Tables = () => {
         const weekKey = `Week${weekNumber}`;
 
         const weekPath = `restaurants/${uid}/${year}/${month}/${weekKey}`;
+        console.log(`Fetching data from: ${weekPath}`);
         const weekRef = collection(firebaseDb, weekPath);
-
         const querySnapshot = await getDocs(weekRef);
+        const weekData = querySnapshot.docs.map((doc) => ({
+          key: doc.id,
+          id: doc.id,
+          ...doc.data(),
+        }));
+        console.log('Initial week data:', weekData);
+        setWeekData(weekData);
+        setOriginalData(weekData);
+      } catch (error) {
+        console.error("Error fetching initial week data:", error);
+      }
+    };
+    const fetchVendors = async () => {
+      const uid = window.sessionStorage.getItem('userId');
+      if (!uid) {
+        console.log('No user ID found');
+        return;
+      }
 
-        const weekData = querySnapshot.docs.map(doc => ({
-          key: doc.id, // Ant Design Table requires a unique 'key' for each row
+      try {
+        const vendorRef = collection(firebaseDb, `restaurants/${uid}/Vendors`);
+        const querySnapshot = await getDocs(vendorRef);
+        const vendorData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-
-        console.log('Current week data:', weekData);
-        setWeekData(weekData);
-
+        setVendors(vendorData);
       } catch (error) {
-        console.error("Error fetching current week data:", error);
+        console.error("Error fetching vendors:", error);
       }
     };
 
     fetchCurrentWeekData();
+    fetchVendors();
   }, []);
 
-  const navigateCustomTable = (e) => {
-    let id = e.target.parentElement.parentElement.dataset['rowKey'];
-    let selectedData = weekData.filter(item => item.id === id)[0].data;
-    let selectedColumn = weekData.filter(item => item.id === id)[0].selectedColumn;
-    let totalAmount = weekData.filter(item => item.id === id)[0].totalAmount;
-
-    navigate('/CustomTable', { state: { selectedData, selectedColumn, totalAmount } });
+  const handleVendorChange = (event) => {
+    setSelectedVendors(event.target.value);
   };
 
-  const handleclick = () => {
-    navigate('/customtable');
+  const filterData = (event) => {
+    const { value } = event.target;
+    const filteredData = originalData.filter(item =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setWeekData(filteredData);
+    console.log(filterData);
+    setSearch(value);
+  };
+
+  const handleYearChange = (event) => {
+    const { value } = event.target;
+    const isAllSelected = value[value.length - 1] === "all";
+    const newYear = isAllSelected ? yearNames.map(n => n.name) : value.filter(v => v !== "all");
+    setYear(newYear);
+    setMonth([]);  // Reset month if year changes
+    setWeek([]);   // Reset week if year changes
+  };
+
+  const handleMonthChange = (event) => {
+    const { value } = event.target;
+    setMonth(value);
+  };
+  
+
+  const handleWeekChange = (event) => {
+    const { value } = event.target;
+    setWeek(value);
+  };
+  
+
+  const handleSearch = async () => {
+    const uid = window.sessionStorage.getItem('userId');
+    if (!uid) {
+      console.log('No user ID found');
+      return;
+    }
+    if (!search && year.length === 0 && month.length === 0 && week.length === 0) {
+      console.log('No search criteria provided');
+      return;
+    }
+    try {
+      let weekPath = `restaurants/${uid}`;
+      if (Array.isArray(year) && year.length > 0) {
+        weekPath += `/${year[0]}`;
+      }
+      if (Array.isArray(month) && month.length > 0) {
+        weekPath += `/${month[0]}`;
+      }
+      const weeksToSearch = Array.isArray(week) && week.length > 0 ? week : ["Week1", "Week2", "Week3", "Week4"];
+      const results = [];
+      for (const wk of weeksToSearch) {
+        const fullPath = `${weekPath}/${wk}`;
+        console.log(`Searching data in path: ${fullPath}`);
+        const weekRef = collection(firebaseDb, fullPath);
+        let querySnapshot;
+        if (search) {
+          const searchQuery = query(weekRef, where('name', '>=', search), where('name', '<=', search + '\uf8ff'));
+          querySnapshot = await getDocs(searchQuery);
+        } else {
+          querySnapshot = await getDocs(weekRef);
+        }
+        const weekData = querySnapshot.docs.map(doc => ({
+          key: doc.id,
+          id: doc.id,
+          ...doc.data()
+        }));
+        results.push(...weekData);
+      }
+      console.log('Searched week data:', results);
+      setWeekData(results);
+    } catch (error) {
+      console.error("Error searching week data:", error);
+    }
   };
 
   return (
-    <div>
-      <Row justify="center" style={{ height: '5rem' }}>
-        <Col span={24} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <h1>Welcome to Tables</h1>
-        </Col>
-      </Row>
-
-      <Row justify="end" style={{ marginBottom: '20px' }}>
-        <Col>
-          <Button type="primary" icon={<SearchOutlined />} onClick={handleclick}>
+    <div style={{ padding: '16px', fontFamily: 'Arial, sans-serif' }}>
+      <Row gutter={16} style={{ marginBottom: '16px', marginLeft: '85%' }}>
+        <Col span={24}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate('/CustomTable')}
+            style={{ marginBottom: '16px' }}
+          >
             Add New Receipt
           </Button>
         </Col>
       </Row>
+      <Row gutter={[16, 16]}>
+      <Col span={4}>
+        <Form.Item>
+          <InputLabel>Vendor</InputLabel>
+          <Select
+            labelId="vendor-select-label"
+            id="vendor-select"
+            multiple
+            value={selectedVendors}
+            onChange={handleVendorChange}
+            input={<OutlinedInput label="Vendor" />}
+            renderValue={(selected) => selected.join(', ')}
+            fullWidth
+          >
+            {vendors.map((vendor) => (
+              <MenuItem key={vendor.id} value={vendor.name}>
+                <Checkbox checked={selectedVendors.includes(vendor.name)} />
+                <ListItemText primary={vendor.name} />
+              </MenuItem>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col span={4}>
+        <Form.Item>
+          <InputLabel>Year</InputLabel>
+          <Select
+            labelId="year-select-label"
+            id="year-select"
+            multiple
+            value={year}
+            onChange={handleYearChange}
+            input={<OutlinedInput label="Year" />}
+            renderValue={(selected) => selected.join(', ')}
+            fullWidth
+          >
+            {yearNames.map((yearOption) => (
+              <MenuItem key={yearOption.id} value={yearOption.name}>
+                <Checkbox checked={year.includes(yearOption.name)} />
+                <ListItemText primary={yearOption.name} />
+              </MenuItem>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col span={4}>
+        <Form.Item>
+          <InputLabel>Months</InputLabel>
+          <Select
+            labelId="month-select-label"
+            id="month-select"
+            multiple
+            value={month}
+            onChange={handleMonthChange}
+            input={<OutlinedInput label="Month" />}
+            renderValue={(selected) => selected.join(', ')}
+            fullWidth
+          >
+            {monthNames.map((monthOption) => (
+              <MenuItem key={monthOption.id} value={monthOption.name}>
+                <Checkbox checked={month.includes(monthOption.name)} />
+                <ListItemText primary={monthOption.name} />
+              </MenuItem>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col span={4}>
+        {year.length > 0 && month.length > 0 && (
+          <Form.Item>
+            <InputLabel>Week</InputLabel>
+            <Select
+              labelId="week-select-label"
+              id="week-select"
+              multiple
+              value={week}
+              onChange={handleWeekChange}
+              input={<OutlinedInput label="Week" />}
+              renderValue={(selected) => selected.join(', ')}
+              fullWidth
+            >
+              {weekNames.map((weekOption) => (
+                <MenuItem key={weekOption.id} value={weekOption.name}>
+                  <Checkbox checked={week.includes(weekOption.name)} />
+                  <ListItemText primary={weekOption.name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </Form.Item>
+        )}
+      </Col>
+      <Col span={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={handleSearch}
+    endIcon={<SearchIcon />}
+    fullWidth
+  >
+    Search
+  </Button>
+</Col>
+    </Row>
 
-      <Row justify="center">
-        <Col span={20}>
-          <Form form={form} component={false}>
-            <Table
-              components={{
-                body: {
-                  cell: EditableCell,
-                },
-              }}
-              bordered
-              dataSource={weekData}
-              columns={mergedColumns}
-              rowClassName="editable-row"
-              pagination={{
-                onChange: cancel,
-              }}
-              loading={weekData.length === 0}
-            />
-          </Form>
-        </Col>
-      </Row>
+<Row gutter={16} style={{ marginTop: '16px', justifyContent: 'flex-end' }}>
+  
+</Row>
+
+      <Form form={form} component={false} style={{ marginTop: '16px' }}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={weekData}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            onChange: cancel,
+          }}
+          style={{ marginTop: '16px' }}
+        />
+      </Form>
     </div>
   );
 };

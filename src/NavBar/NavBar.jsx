@@ -41,14 +41,14 @@ const NavBar = () => {
         {
             key: 'app',
             icon: <AppstoreOutlined />,
-            label: <Link to='/tables'>Table</Link>,
+            label: <Link to='/tables'>Receipts</Link>,
         },
 
-        {
-          key: 'app',
-          icon: <AppstoreOutlined />,
-          label: <Link to='/CustomTable'>CustomTable</Link>,
-      },
+    //     {
+    //       key: 'app',
+    //       icon: <AppstoreOutlined />,
+    //       label: <Link to='/CustomTable'>CustomTable</Link>,
+    //   },
     ];
 
     const menuItems = isLoggedIn ? privateItems : publicItems;
